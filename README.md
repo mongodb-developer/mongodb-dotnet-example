@@ -35,6 +35,12 @@ At the root of the project is the usual files that come out of the box with an A
 
 The only file with changes made here is the Startup.cs class. Inside the ConfigureServices method, the appsettings code is pulled in and the Database settings and Games Service are added to dependency injection for use in other classes.
 
+## Running the code
+
+If your IDE supports it, you can go ahead and run the application from inside the IDE.
+
+If you prefer to run it from your terminal/command-line, you can use ``` dotnet run ```.
+
 ## More information
 
 If you want more information about MongoDB and Atlas, the powerful cloud-based database solution, you can view [the documentation](https://docs.atlas.mongodb.com/).
