@@ -15,7 +15,7 @@ The aim of this project is to give you a working example of how you can use the 
 
 The below diagram shows the overall architecture of the application and the following sections will explain the code more.
 
-![Architecture diagram for the Web API with MongoDB](./images/architecture.png)
+![Architecture diagram for the Web API with MongoDB](./images/architecture.jpeg)
 
 ### Controllers
 
