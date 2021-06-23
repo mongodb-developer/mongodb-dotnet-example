@@ -13,6 +13,10 @@ The aim of this project is to give you a working example of how you can use the 
 
 ## Getting to know the code
 
+The below diagram shows the overall architecture of the application and the following sections will explain the code more.
+
+![Architecture diagram for the Web API with MongoDB](./images/architecture.png)
+
 ### Controllers
 
 The GamesController.cs class is where the routes/endpoints for the api are defined. 
