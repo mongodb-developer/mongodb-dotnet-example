@@ -48,3 +48,7 @@ If you prefer to run it from your terminal/command-line, you can use ``` dotnet 
 ## More information
 
 If you want more information about MongoDB and Atlas, the powerful cloud-based database solution, you can view [the documentation](https://docs.atlas.mongodb.com/).
+
+## Disclaimer 
+
+Use at your own risk; not a supported MongoDB product 
