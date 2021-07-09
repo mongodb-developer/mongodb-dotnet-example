@@ -3,6 +3,7 @@
 ## Introduction
 Welcome to this MongoDB and ASP.Net Core Web API sample project. 
 The aim of this project is to give you a working example of how you can use the power of MongoDB Atlas and .NET to create modern applications.
+This project is intended to be a companion project to the article [How to use MongoDB Atlas with .NET/.NET Core](https://www.mongodb.com/languages/how-to-use-mongodb-with-dotnet) from the MongoDB website.
 
 ## Getting Started
 
