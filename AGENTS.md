@@ -7,10 +7,11 @@ This file guides coding agents working in this repository.
 ```bash
 dotnet restore
 dotnet build
+dotnet test tests/MongodbDotnetExample.Tests/MongodbDotnetExample.Tests.csproj
 dotnet run --urls http://localhost:5000
 ```
 
-This repository has no unit test suite; verification is done via the smoke checks below.
+This repository has an xUnit test suite plus the smoke checks below.
 
 If port 5000 is already in use, stop the conflicting process or pass a different port via `--urls`; do not change the default port in source code.
 

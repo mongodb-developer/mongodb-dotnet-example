@@ -10,4 +10,8 @@
     <PackageReference Include="mongodb.driver" Version="3.9.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="tests/**/*.cs" />
+  </ItemGroup>
+
 </Project>

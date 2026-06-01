@@ -5,7 +5,24 @@ using System.Linq;
 
 namespace mongodb_dotnet_example.Services
 {
-    public class GamesService
+    public interface IGamesService
+    {
+        List<Game> Get();
+
+        Game Get(string id);
+
+        Game Create(Game game);
+
+        void Update(string id, Game updatedGame);
+
+        void Delete(Game gameForDeletion);
+
+        void Delete(string id);
+
+        void SeedIfEmpty(IEnumerable<Game> seedGames);
+    }
+
+    public class GamesService : IGamesService
     {
         private readonly IMongoCollection<Game> _games;
 

@@ -127,6 +127,7 @@ Relevant docs:
 ## Testing and CI
 
 CI runs on GitHub Actions and performs:
+- `dotnet test tests/MongodbDotnetExample.Tests/MongodbDotnetExample.Tests.csproj`
 - `dotnet restore`
 - `dotnet build`
 - API startup + health check
@@ -135,6 +136,7 @@ CI runs on GitHub Actions and performs:
 Run locally:
 
 ```bash
+dotnet test tests/MongodbDotnetExample.Tests/MongodbDotnetExample.Tests.csproj
 dotnet build
 ```
 

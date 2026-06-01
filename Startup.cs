@@ -33,7 +33,7 @@ namespace mongodb_dotnet_example
 
             services.AddSingleton<IGamesDatabaseSettings>(sp => sp.GetRequiredService<IOptions<GamesDatabaseSettings>>().Value);
 
-            services.AddSingleton<GamesService>();
+            services.AddSingleton<IGamesService, GamesService>();
 
             services.AddControllers();
             services.AddHealthChecks();
@@ -68,7 +68,7 @@ namespace mongodb_dotnet_example
             var seedOnStartup = Environment.GetEnvironmentVariable("SEED_ON_STARTUP");
             if (!string.Equals(seedOnStartup, "false", StringComparison.OrdinalIgnoreCase))
             {
-                var gamesService = app.ApplicationServices.GetRequiredService<GamesService>();
+                var gamesService = app.ApplicationServices.GetRequiredService<IGamesService>();
                 gamesService.SeedIfEmpty(GameSeedData.DefaultGames);
             }
 
