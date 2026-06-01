@@ -1,0 +1,27 @@
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/dotnet:1-10.0-bookworm
+    volumes:
+      - ..:/workspaces/mongodb-dotnet-example:cached
+    command: sleep infinity
+    network_mode: service:mongodb
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongodb/mongodb-atlas-local:8.0.3-20250506T093411Z
+    restart: unless-stopped
+    volumes:
+      - mongodb-data:/data/db
+      - mongodb-config:/data/configdb
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --eval \"db.adminCommand({ ping: 1 })\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+volumes:
+  mongodb-data:
+  mongodb-config:

@@ -11,7 +11,10 @@ namespace mongodb_dotnet_example.Services
 
         public GamesService(IGamesDatabaseSettings settings)
         {
-            var client = new MongoClient(settings.ConnectionString);
+            var clientSettings = MongoClientSettings.FromConnectionString(settings.ConnectionString);
+            clientSettings.ApplicationName = "mongodb-dotnet-example-api";
+
+            var client = new MongoClient(clientSettings);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _games = database.GetCollection<Game>(settings.GamesCollectionName);
@@ -32,5 +35,15 @@ namespace mongodb_dotnet_example.Services
         public void Delete(Game gameForDeletion) => _games.DeleteOne(game => game.Id == gameForDeletion.Id);
 
         public void Delete(string id) => _games.DeleteOne(game => game.Id == id);
+
+        public void SeedIfEmpty(IEnumerable<Game> seedGames)
+        {
+            if (_games.CountDocuments(_ => true) > 0)
+            {
+                return;
+            }
+
+            _games.InsertMany(seedGames);
+        }
     }
 }
