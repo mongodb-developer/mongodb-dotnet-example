@@ -1,55 +1,167 @@
-![MongoDB and C# logo](./images/banner.png)
+# MongoDB Games API with ASP.NET Core
 
-## Introduction
-Welcome to this MongoDB and ASP.Net Core Web API sample project. 
-The aim of this project is to give you a working example of how you can use the power of MongoDB Atlas and .NET to create modern applications.
-This project is intended to be a companion project to the article [How to use MongoDB Atlas with .NET/.NET Core](https://www.mongodb.com/languages/how-to-use-mongodb-with-dotnet) from the MongoDB website.
+This repository is a minimal .NET Web API that demonstrates CRUD operations against MongoDB for a `games` domain model.
+It is designed for developers learning how to connect ASP.NET Core services to MongoDB Atlas or a local MongoDB instance.
 
-## Getting Started
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/mongodb-developer/mongodb-dotnet-example)
 
-1. Clone this repo to your local machine
-2. Open the project in your IDE of choice
-3. Edit appsettings.json and appsettings.Development.json and  update the ConnectionString field with your connection string from the 'Connect' button for your cluster in the [Atlas UI](https://cloud.mongodb.com) 
-4. Run the project to allow you access to the endpoints for all CRUD operations.
+## Features
 
-## Getting to know the code
+- ASP.NET Core Web API with Swagger UI
+- MongoDB .NET Driver integration through a dedicated service layer
+- CRUD endpoints for a `Game` entity
+- Startup seed behavior that inserts sample games when the collection is empty
+- Dev Container support with MongoDB Atlas Local for fast onboarding
+- GitHub Actions CI with a local MongoDB service container
 
-The below diagram shows the overall architecture of the application and the following sections will explain the code more.
+## Architecture Overview
+
+The API receives HTTP requests in `GamesController`, delegates data operations to `GamesService`, and persists documents in MongoDB.
 
 ![Architecture diagram for the Web API with MongoDB](./images/architecture.jpeg)
 
-### Controllers
+## Tech Stack
 
-The GamesController.cs class is where the routes/endpoints for the api are defined. 
+- .NET 10 Web API
+- MongoDB .NET Driver (`MongoDB.Driver`)
+- Swagger / OpenAPI (`Swashbuckle.AspNetCore`)
+- MongoDB Atlas Local (dev container), `mongo:latest` (CI)
 
-Each endpoint calls to a method in the GamesService.cs class.
+## Prerequisites
 
-### Services
+- .NET SDK 10+
+- Docker 24+ (for local MongoDB or dev container workflows)
+- Optional: MongoDB Atlas cluster connection string
 
-The GamesService.cs class contains the code that uses the MongoDB.Driver NuGet package to carry out CRUD operations against your Cluster.
+## Quick Start (Local)
 
-### Models
+1. Start MongoDB locally (Docker example):
 
-The Game.cs class acts as a model you can use throughout the project and the properties in it, map to the fields in the MongoDB document.
+```bash
+docker run --rm -d --name mongo-local -p 27017:27017 mongo:latest
+```
 
-GamesDatabaseSettings.cs contains an interface and implementation that maps to the GamesDatabaseSettings section in appsettings.json and appsettings.Development.json. In this application, the connection string to your cluster is stored here, but normally in production, you would combine this with [user secrets](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=windows).
+2. Restore and run the API:
 
-### Project Root
+```bash
+dotnet restore
+dotnet run --urls http://localhost:5000
+```
 
-At the root of the project is the usual files that come out of the box with an ASP.NET Core Web API project. 
+3. Verify service health and seeded data:
 
-The only file with changes made here is the Startup.cs class. Inside the ConfigureServices method, the appsettings code is pulled in and the Database settings and Games Service are added to dependency injection for use in other classes.
+```bash
+curl http://localhost:5000/healthz
+curl http://localhost:5000/api/games
+```
 
-## Running the code
+4. Open the API documentation UI:
 
-If your IDE supports it, you can go ahead and run the application from inside the IDE.
+```text
+http://localhost:5000/swagger/index.html
+```
 
-If you prefer to run it from your terminal/command-line, you can use ``` dotnet run ```.
+Expected outcomes:
+- Health endpoint returns `Healthy`
+- `GET /api/games` returns a JSON array containing sample records (for example `Celeste`, `Hades`)
 
-## More information
+## Run in Codespaces / Dev Container
 
-If you want more information about MongoDB and Atlas, the powerful cloud-based database solution, you can view [the documentation](https://docs.atlas.mongodb.com/).
+1. Open the repository in GitHub Codespaces (badge above) or VS Code Dev Containers.
+2. Wait for container setup to complete (`dotnet restore` runs automatically).
+3. Run the API:
 
-## Disclaimer 
+```bash
+dotnet run --urls http://0.0.0.0:5000
+```
 
-Use at your own risk; not a supported MongoDB product 
+4. Open:
+- Swagger UI: `http://localhost:5000/swagger/index.html`
+- Health endpoint: `http://localhost:5000/healthz`
+
+## Environment Variables
+
+The app reads nested configuration via ASP.NET Core environment binding.
+
+| Name | Required | Example | Description |
+|---|---|---|---|
+| `GamesDatabaseSettings__ConnectionString` | Yes | `mongodb://localhost:27017` | MongoDB connection string |
+| `GamesDatabaseSettings__DatabaseName` | Yes | `GamesDB` | MongoDB database name |
+| `GamesDatabaseSettings__GamesCollectionName` | Yes | `Games` | MongoDB collection name |
+| `SEED_ON_STARTUP` | No | `true` | Inserts default games if collection is empty (`false` disables) |
+| `ASPNETCORE_ENVIRONMENT` | No | `Development` | ASP.NET Core environment |
+
+## MongoDB Features Demonstrated
+
+- MongoDB document mapping with BSON attributes (`Game` model)
+- Collection-level CRUD operations (`Find`, `InsertOne`, `ReplaceOne`, `DeleteOne`)
+- Configuration-driven database and collection selection
+- Standardized MongoDB client `appName` for telemetry/observability
+
+Relevant docs:
+- [MongoDB .NET/C# Driver](https://www.mongodb.com/docs/drivers/csharp/)
+- [MongoDB Atlas](https://www.mongodb.com/docs/atlas/)
+
+## API Overview
+
+| Method | Path | Purpose |
+|---|---|---|
+| `GET` | `/api/games` | List all games |
+| `GET` | `/api/games/{id}` | Get one game by ObjectId |
+| `POST` | `/api/games` | Create a game |
+| `PUT` | `/api/games/{id}` | Replace an existing game |
+| `DELETE` | `/api/games/{id}` | Delete a game |
+| `GET` | `/healthz` | Health check endpoint |
+
+## Project Structure
+
+- `Controllers/GamesController.cs`: API routes and HTTP responses
+- `Services/GamesService.cs`: MongoDB data access and seed helper
+- `Models/Game.cs`: Document model
+- `Models/GamesDatabaseSettings.cs`: Configuration contracts
+- `Models/GameSeedData.cs`: Default seed dataset
+- `.devcontainer/`: Dev Container and Atlas Local configuration
+- `.github/workflows/ci.yml`: CI build and smoke/integration checks
+- `EDD.md`: MongoDB entity and index contract
+
+## Testing and CI
+
+CI runs on GitHub Actions and performs:
+- `dotnet test tests/MongodbDotnetExample.Tests/MongodbDotnetExample.Tests.csproj`
+- `dotnet restore`
+- `dotnet build`
+- API startup + health check
+- CRUD smoke check against a local MongoDB service container
+
+Run locally:
+
+```bash
+dotnet test tests/MongodbDotnetExample.Tests/MongodbDotnetExample.Tests.csproj
+dotnet build
+```
+
+## Troubleshooting
+
+1. API starts but requests fail with MongoDB connection errors:
+- Ensure MongoDB is running and reachable at `GamesDatabaseSettings__ConnectionString`.
+
+2. Port binding errors on `5000`:
+- Run with a different port: `dotnet run --urls http://localhost:5050`.
+
+3. Empty response from `/api/games` after first run:
+- Confirm `SEED_ON_STARTUP` is not set to `false`.
+
+4. Dev container builds but API cannot reach MongoDB:
+- In shared network mode, use `mongodb://localhost:27017` (not `mongodb://mongodb:27017`).
+
+5. Swagger does not load:
+- Check `/healthz` first; if healthy, verify `http://localhost:5000/swagger` and inspect server logs.
+
+## Additional Resources
+
+- [How to use MongoDB Atlas with .NET/.NET Core](https://www.mongodb.com/languages/how-to-use-mongodb-with-dotnet)
+- [MongoDB C# Driver CRUD Quick Reference](https://www.mongodb.com/docs/drivers/csharp/current/fundamentals/crud/)
+
+## License
+
+This project is licensed under the terms in [LICENSE](./LICENSE).

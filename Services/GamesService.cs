@@ -5,13 +5,33 @@ using System.Linq;
 
 namespace mongodb_dotnet_example.Services
 {
-    public class GamesService
+    public interface IGamesService
+    {
+        List<Game> Get();
+
+        Game Get(string id);
+
+        Game Create(Game game);
+
+        void Update(string id, Game updatedGame);
+
+        void Delete(Game gameForDeletion);
+
+        void Delete(string id);
+
+        void SeedIfEmpty(IEnumerable<Game> seedGames);
+    }
+
+    public class GamesService : IGamesService
     {
         private readonly IMongoCollection<Game> _games;
 
         public GamesService(IGamesDatabaseSettings settings)
         {
-            var client = new MongoClient(settings.ConnectionString);
+            var clientSettings = MongoClientSettings.FromConnectionString(settings.ConnectionString);
+            clientSettings.ApplicationName = "mongodb-dotnet-example-api";
+
+            var client = new MongoClient(clientSettings);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _games = database.GetCollection<Game>(settings.GamesCollectionName);
@@ -32,5 +52,15 @@ namespace mongodb_dotnet_example.Services
         public void Delete(Game gameForDeletion) => _games.DeleteOne(game => game.Id == gameForDeletion.Id);
 
         public void Delete(string id) => _games.DeleteOne(game => game.Id == id);
+
+        public void SeedIfEmpty(IEnumerable<Game> seedGames)
+        {
+            if (_games.CountDocuments(_ => true) > 0)
+            {
+                return;
+            }
+
+            _games.InsertMany(seedGames);
+        }
     }
 }

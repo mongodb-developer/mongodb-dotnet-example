@@ -9,9 +9,9 @@ namespace mongodb_dotnet_example.Controllers
     [ApiController]
     public class GamesController : ControllerBase
     {
-        private readonly GamesService _gameService;
+        private readonly IGamesService _gameService;
 
-        public GamesController(GamesService gamesService)
+        public GamesController(IGamesService gamesService)
         {
             _gameService = gamesService;
         }

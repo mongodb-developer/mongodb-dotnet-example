@@ -33,9 +33,10 @@ namespace mongodb_dotnet_example
 
             services.AddSingleton<IGamesDatabaseSettings>(sp => sp.GetRequiredService<IOptions<GamesDatabaseSettings>>().Value);
 
-            services.AddSingleton<GamesService>();
+            services.AddSingleton<IGamesService, GamesService>();
 
             services.AddControllers();
+            services.AddHealthChecks();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "mongodb_dotnet_example", Version = "v1" });
@@ -55,15 +56,26 @@ namespace mongodb_dotnet_example
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "mongodb_dotnet_example v1"));
 
-            app.UseHttpsRedirection();
+            if (!env.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
 
             app.UseAuthorization();
 
+            var seedOnStartup = Environment.GetEnvironmentVariable("SEED_ON_STARTUP");
+            if (!string.Equals(seedOnStartup, "false", StringComparison.OrdinalIgnoreCase))
+            {
+                var gamesService = app.ApplicationServices.GetRequiredService<IGamesService>();
+                gamesService.SeedIfEmpty(GameSeedData.DefaultGames);
+            }
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/healthz");
             });
         }
     }

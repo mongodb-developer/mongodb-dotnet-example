@@ -1,0 +1,31 @@
+{
+  "name": "mongodb-dotnet-example",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/mongodb-dotnet-example",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "mongodb.mongodb-vscode"
+      ]
+    }
+  },
+  "forwardPorts": [5000, 27017],
+  "portsAttributes": {
+    "5000": {
+      "label": "ASP.NET API"
+    },
+    "27017": {
+      "label": "MongoDB Atlas Local"
+    }
+  },
+  "remoteEnv": {
+    "GamesDatabaseSettings__ConnectionString": "mongodb://localhost:27017",
+    "GamesDatabaseSettings__DatabaseName": "GamesDB",
+    "GamesDatabaseSettings__GamesCollectionName": "Games",
+    "ASPNETCORE_ENVIRONMENT": "Development"
+  },
+  "postCreateCommand": "dotnet restore",
+  "postStartCommand": "echo 'Startup seed runs when the API starts (SEED_ON_STARTUP=true by default).'"
+}
