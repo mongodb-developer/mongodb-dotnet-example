@@ -158,6 +158,9 @@ dotnet build
 5. Swagger does not load:
 - Check `/health` first; if healthy, verify `http://localhost:5000/swagger` and inspect server logs.
 
+6. Receiving 502 error when visiting /health or /swagger from running in GitHub Codespaces
+- Ensure that port 5000 is set to public visibility in the Ports tab inside Codespaces.
+
 ## Additional Resources
 
 - [How to use MongoDB Atlas with .NET/.NET Core](https://www.mongodb.com/languages/how-to-use-mongodb-with-dotnet)
