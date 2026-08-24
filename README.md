@@ -51,7 +51,7 @@ dotnet run --urls http://localhost:5000
 3. Verify service health and seeded data:
 
 ```bash
-curl http://localhost:5000/healthz
+curl http://localhost:5000/health
 curl http://localhost:5000/api/games
 ```
 
@@ -77,7 +77,7 @@ dotnet run --urls http://0.0.0.0:5000
 
 4. Open:
 - Swagger UI: `http://localhost:5000/swagger/index.html`
-- Health endpoint: `http://localhost:5000/healthz`
+- Health endpoint: `http://localhost:5000/health`
 
 ## App Settings
 
@@ -112,7 +112,7 @@ Relevant docs:
 | `POST` | `/api/games` | Create a game |
 | `PUT` | `/api/games/{id}` | Replace an existing game |
 | `DELETE` | `/api/games/{id}` | Delete a game |
-| `GET` | `/healthz` | Health check endpoint |
+| `GET` | `/health` | Health check endpoint |
 
 ## Project Structure
 
@@ -156,7 +156,7 @@ dotnet build
 - In shared network mode, use `mongodb://localhost:27017` (not `mongodb://mongodb:27017`).
 
 5. Swagger does not load:
-- Check `/healthz` first; if healthy, verify `http://localhost:5000/swagger` and inspect server logs.
+- Check `/health` first; if healthy, verify `http://localhost:5000/swagger` and inspect server logs.
 
 ## Additional Resources
 

@@ -18,7 +18,7 @@ If port 5000 is already in use, stop the conflicting process or pass a different
 After any change that affects runtime behavior (`Program.cs`, `Startup.cs`, `Controllers`, `Services`, or `Models`), start the server and run the two curl commands below. Both must return HTTP 200 before considering the task complete.
 
 ```bash
-curl http://localhost:5000/healthz
+curl http://localhost:5000/health
 curl http://localhost:5000/api/games
 ```
 

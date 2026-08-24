@@ -14,7 +14,8 @@
   "forwardPorts": [5000, 27017],
   "portsAttributes": {
     "5000": {
-      "label": "ASP.NET API"
+      "label": "ASP.NET API",
+      "visibility": "public"
     },
     "27017": {
       "label": "MongoDB Atlas Local"
