@@ -79,17 +79,18 @@ dotnet run --urls http://0.0.0.0:5000
 - Swagger UI: `http://localhost:5000/swagger/index.html`
 - Health endpoint: `http://localhost:5000/healthz`
 
-## Environment Variables
+## App Settings
 
-The app reads nested configuration via ASP.NET Core environment binding.
+Application behavior is configured through `appsettings.json` and `appsettings.Development.json`.
 
-| Name | Required | Example | Description |
+| Section | Key | Default | Description |
 |---|---|---|---|
-| `GamesDatabaseSettings__ConnectionString` | Yes | `mongodb://localhost:27017` | MongoDB connection string |
-| `GamesDatabaseSettings__DatabaseName` | Yes | `GamesDB` | MongoDB database name |
-| `GamesDatabaseSettings__GamesCollectionName` | Yes | `Games` | MongoDB collection name |
-| `SEED_ON_STARTUP` | No | `true` | Inserts default games if collection is empty (`false` disables) |
-| `ASPNETCORE_ENVIRONMENT` | No | `Development` | ASP.NET Core environment |
+| `GamesDatabaseSettings` | `ConnectionString` | `mongodb://localhost:27017` | MongoDB connection string |
+| `GamesDatabaseSettings` | `DatabaseName` | `GamesDB` | MongoDB database name |
+| `GamesDatabaseSettings` | `GamesCollectionName` | `Games` | MongoDB collection name |
+| `StartupBehaviorSettings` | `SeedOnStartup` | `true` | Inserts default games when collection is empty |
+
+Environment variables are still supported as optional ASP.NET Core overrides (for example in CI/CD), but the app no longer depends on direct environment-variable reads.
 
 ## MongoDB Features Demonstrated
 
@@ -143,13 +144,13 @@ dotnet build
 ## Troubleshooting
 
 1. API starts but requests fail with MongoDB connection errors:
-- Ensure MongoDB is running and reachable at `GamesDatabaseSettings__ConnectionString`.
+- Ensure MongoDB is running and reachable at `GamesDatabaseSettings:ConnectionString` in app settings.
 
 2. Port binding errors on `5000`:
 - Run with a different port: `dotnet run --urls http://localhost:5050`.
 
 3. Empty response from `/api/games` after first run:
-- Confirm `SEED_ON_STARTUP` is not set to `false`.
+- Confirm `StartupBehaviorSettings:SeedOnStartup` is `true`.
 
 4. Dev container builds but API cannot reach MongoDB:
 - In shared network mode, use `mongodb://localhost:27017` (not `mongodb://mongodb:27017`).

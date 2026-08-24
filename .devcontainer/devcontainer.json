@@ -27,5 +27,5 @@
     "ASPNETCORE_ENVIRONMENT": "Development"
   },
   "postCreateCommand": "dotnet restore",
-  "postStartCommand": "echo 'Startup seed runs when the API starts (SEED_ON_STARTUP=true by default).'"
+  "postStartCommand": "echo 'Startup seed runs when the API starts (StartupBehaviorSettings:SeedOnStartup=true by default).'"
 }
