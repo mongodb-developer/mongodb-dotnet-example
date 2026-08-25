@@ -1,6 +1,6 @@
 services:
   app:
-    image: mcr.microsoft.com/devcontainers/dotnet:1-10.0-bookworm
+    "image": "mcr.microsoft.com/devcontainers/dotnet:dev-10.0"
     volumes:
       - ..:/workspaces/mongodb-dotnet-example:cached
     command: sleep infinity

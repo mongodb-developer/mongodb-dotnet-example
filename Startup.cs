@@ -30,6 +30,7 @@ namespace mongodb_dotnet_example
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<GamesDatabaseSettings>(Configuration.GetSection(nameof(GamesDatabaseSettings)));
+            services.Configure<StartupBehaviorSettings>(Configuration.GetSection(nameof(StartupBehaviorSettings)));
 
             services.AddSingleton<IGamesDatabaseSettings>(sp => sp.GetRequiredService<IOptions<GamesDatabaseSettings>>().Value);
 
@@ -44,13 +45,13 @@ namespace mongodb_dotnet_example
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<StartupBehaviorSettings> startupBehaviorOptions)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
-                
+
+
             }
 
             app.UseSwagger();
@@ -65,8 +66,7 @@ namespace mongodb_dotnet_example
 
             app.UseAuthorization();
 
-            var seedOnStartup = Environment.GetEnvironmentVariable("SEED_ON_STARTUP");
-            if (!string.Equals(seedOnStartup, "false", StringComparison.OrdinalIgnoreCase))
+            if (startupBehaviorOptions.Value.SeedOnStartup)
             {
                 var gamesService = app.ApplicationServices.GetRequiredService<IGamesService>();
                 gamesService.SeedIfEmpty(GameSeedData.DefaultGames);
@@ -74,8 +74,8 @@ namespace mongodb_dotnet_example
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-                endpoints.MapHealthChecks("/healthz");
+                endpoints.MapControllers();               
+                endpoints.MapHealthChecks("/health");
             });
         }
     }

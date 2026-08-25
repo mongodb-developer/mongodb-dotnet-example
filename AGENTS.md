@@ -18,11 +18,11 @@ If port 5000 is already in use, stop the conflicting process or pass a different
 After any change that affects runtime behavior (`Program.cs`, `Startup.cs`, `Controllers`, `Services`, or `Models`), start the server and run the two curl commands below. Both must return HTTP 200 before considering the task complete.
 
 ```bash
-curl http://localhost:5000/healthz
+curl http://localhost:5000/health
 curl http://localhost:5000/api/games
 ```
 
-If the server fails to connect to MongoDB, verify the `.devcontainer` Atlas Local instance is running and that `GamesDatabaseSettings__ConnectionString` is set. Do not modify application code to bypass the connection failure.
+If the server fails to connect to MongoDB, verify the `.devcontainer` Atlas Local instance is running and that `GamesDatabaseSettings:ConnectionString` is set in app settings. Do not modify application code to bypass the connection failure.
 
 ## Style
 
@@ -40,17 +40,17 @@ Run `dotnet format` before completing any C# code change.
 - `.github/workflows/ci.yml`: build and integration smoke checks
 - `EDD.md`: MongoDB data model contract
 
-## Environment Variables And Configuration
+## Configuration
 
-Required configuration (via environment variables or appsettings):
+Primary configuration (app settings):
 
-- `GamesDatabaseSettings__ConnectionString` (example: `mongodb://localhost:27017`)
-- `GamesDatabaseSettings__DatabaseName` (example: `GamesDB`)
-- `GamesDatabaseSettings__GamesCollectionName` (example: `Games`)
+- `GamesDatabaseSettings:ConnectionString` (example: `mongodb://localhost:27017`)
+- `GamesDatabaseSettings:DatabaseName` (example: `GamesDB`)
+- `GamesDatabaseSettings:GamesCollectionName` (example: `Games`)
+- `StartupBehaviorSettings:SeedOnStartup` (`true` by default; set `false` to disable startup seeding)
 
-Optional:
+Optional runtime override:
 
-- `SEED_ON_STARTUP` (`true` by default; set `false` to disable startup seeding)
 - `ASPNETCORE_ENVIRONMENT` (`Development`, `Production`, etc.)
 
 ## MongoDB Skills

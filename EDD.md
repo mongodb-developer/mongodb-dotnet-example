@@ -33,7 +33,7 @@ Collection: `Games`
 
 ### Seed Behavior
 
-- On API startup, if `SEED_ON_STARTUP` is not `false`, the app checks collection emptiness
+- On API startup, if `StartupBehaviorSettings:SeedOnStartup` is `true`, the app checks collection emptiness
 - If empty, inserts default records from `Models/GameSeedData.cs`
 - Seed operation is idempotent by emptiness guard
 
