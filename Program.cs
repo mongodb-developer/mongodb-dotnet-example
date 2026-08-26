@@ -1,26 +1,54 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using mongodb_dotnet_example.Models;
+using mongodb_dotnet_example.Services;
 
-namespace mongodb_dotnet_example
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<GamesDatabaseSettings>(builder.Configuration.GetSection(nameof(GamesDatabaseSettings)));
+builder.Services.Configure<StartupBehaviorSettings>(builder.Configuration.GetSection(nameof(StartupBehaviorSettings)));
+
+builder.Services.AddSingleton<IGamesDatabaseSettings>(sp => sp.GetRequiredService<IOptions<GamesDatabaseSettings>>().Value);
+
+builder.Services.AddSingleton<IGamesService, GamesService>();
+
+builder.Services.AddControllers();
+builder.Services.AddHealthChecks();
+builder.Services.AddSwaggerGen(c =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "mongodb_dotnet_example", Version = "v1" });
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "mongodb_dotnet_example v1"));
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+var startupBehaviorOptions = app.Services.GetRequiredService<IOptions<StartupBehaviorSettings>>();
+if (startupBehaviorOptions.Value.SeedOnStartup)
+{
+    var gamesService = app.Services.GetRequiredService<IGamesService>();
+    gamesService.SeedIfEmpty(GameSeedData.DefaultGames);
+}
+
+app.MapControllers();
+app.MapHealthChecks("/health");
+
+app.Run();
