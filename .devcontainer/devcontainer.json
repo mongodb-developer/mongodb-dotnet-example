@@ -15,7 +15,7 @@
   "portsAttributes": {
     "5000": {
       "label": "ASP.NET API",
-      "visibility": "public"
+      "onAutoForward": "openPreview"
     },
     "27017": {
       "label": "MongoDB Atlas Local"
@@ -28,5 +28,9 @@
     "ASPNETCORE_ENVIRONMENT": "Development"
   },
   "postCreateCommand": "dotnet restore && bash /workspaces/mongodb-dotnet-example/.devcontainer/track.sh created || true",
-  "postStartCommand": "echo 'Startup seed runs when the API starts (StartupBehaviorSettings:SeedOnStartup=true by default).'; bash /workspaces/mongodb-dotnet-example/.devcontainer/track.sh started || true"
+  "postStartCommand": "echo 'Startup seed runs when the API starts (StartupBehaviorSettings:SeedOnStartup=true by default).'; bash /workspaces/mongodb-dotnet-example/.devcontainer/track.sh started || true",
+  "postAttachCommand": {
+    "api": "dotnet run --urls http://localhost:5000",
+    "portSetup": "sleep 5 && .devcontainer/portSetup.sh"
+  }
 }
