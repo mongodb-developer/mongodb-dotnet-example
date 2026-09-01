@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -48,6 +49,7 @@ if (startupBehaviorOptions.Value.SeedOnStartup)
     gamesService.SeedIfEmpty(GameSeedData.DefaultGames);
 }
 
+app.MapGet("/", () => Results.Redirect("/swagger"));
 app.MapControllers();
 app.MapHealthChecks("/health");
 
