@@ -29,7 +29,7 @@ namespace mongodb_dotnet_example.Services
         public GamesService(IGamesDatabaseSettings settings)
         {
             var clientSettings = MongoClientSettings.FromConnectionString(settings.ConnectionString);
-            clientSettings.ApplicationName = "mongodb-dotnet-example-api";
+            clientSettings.ApplicationName = "devrel-github-dotnet-gamesapi";
 
             var client = new MongoClient(clientSettings);
             var database = client.GetDatabase(settings.DatabaseName);
