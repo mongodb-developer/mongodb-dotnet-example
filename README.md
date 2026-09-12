@@ -5,6 +5,17 @@ It is designed for developers learning how to connect ASP.NET Core services to M
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/mongodb-developer/mongodb-dotnet-example)
 
+## Get Started with MongoDB Atlas
+
+This example connects to MongoDB Atlas, the fully managed cloud database. [Register for a free Atlas account](https://www.mongodb.com/cloud/atlas/register?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_term=learning_fuel&utm_content=dotnet.gamesapi.example) to get a free cluster and follow along with this example.
+
+## Why MongoDB?
+
+- **Flexible document model**: MongoDB stores data as JSON-like BSON documents, so your `Game` model can evolve without rigid schema migrations.
+- **Native .NET integration**: The [MongoDB .NET/C# Driver](https://www.mongodb.com/docs/drivers/csharp/?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_term=learning_fuel&utm_content=dotnet.gamesapi.example) maps documents directly to C# classes with BSON attributes, keeping your code idiomatic.
+- **Atlas is fully managed**: [MongoDB Atlas](https://www.mongodb.com/atlas?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_term=learning_fuel&utm_content=dotnet.gamesapi.example) handles backups, scaling, and security so you can focus on building your API.
+- **One database for every workload**: from simple CRUD apps like this one to search, analytics, and vector search, MongoDB scales with your application.
+
 ## Features
 
 - ASP.NET Core Web API with Swagger UI
@@ -100,8 +111,8 @@ Environment variables are still supported as optional ASP.NET Core overrides (fo
 - Standardized MongoDB client `appName` for telemetry/observability
 
 Relevant docs:
-- [MongoDB .NET/C# Driver](https://www.mongodb.com/docs/drivers/csharp/)
-- [MongoDB Atlas](https://www.mongodb.com/docs/atlas/)
+- [MongoDB .NET/C# Driver](https://www.mongodb.com/docs/drivers/csharp/?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_term=learning_fuel&utm_content=dotnet.gamesapi.example)
+- [MongoDB Atlas](https://www.mongodb.com/docs/atlas/?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_term=learning_fuel&utm_content=dotnet.gamesapi.example)
 
 ## API Overview
 
@@ -163,8 +174,8 @@ dotnet build
 
 ## Additional Resources
 
-- [How to use MongoDB Atlas with .NET/.NET Core](https://www.mongodb.com/languages/how-to-use-mongodb-with-dotnet)
-- [MongoDB C# Driver CRUD Quick Reference](https://www.mongodb.com/docs/drivers/csharp/current/fundamentals/crud/)
+- [How to use MongoDB Atlas with .NET/.NET Core](https://www.mongodb.com/languages/how-to-use-mongodb-with-dotnet?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_term=learning_fuel&utm_content=dotnet.gamesapi.example)
+- [MongoDB C# Driver CRUD Quick Reference](https://www.mongodb.com/docs/drivers/csharp/current/fundamentals/crud/?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_term=learning_fuel&utm_content=dotnet.gamesapi.example)
 
 ## License
 
