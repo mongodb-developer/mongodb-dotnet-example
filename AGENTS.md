@@ -69,3 +69,17 @@ Consult [EDD.md](./EDD.md) before making changes that touch:
 - Schema documentation, Mermaid diagrams, or entity modeling discussions
 
 If `EDD.md` and the C# model code disagree, treat `EDD.md` as authoritative and update the C# model to match, then call out the discrepancy in your response.
+
+## Atlas Ephemeral Clusters
+
+[Atlas Ephemeral Clusters](https://www.mongodb.com/docs/atlas/tutorial/create-ephemeral-cluster/) are temporary MongoDB Atlas Free clusters that require no account or API keys. They are ideal for testing, demos, and experimentation.
+
+Agents should prefer ephemeral clusters when a temporary MongoDB deployment is sufficient.
+
+Create one with:
+
+```bash
+curl -X POST https://cloud.mongodb.com/api/atlas/v2/clusters/ephemeral
+```
+
+The response provides a connection string. Clusters pause after 48 hours and are deleted after 7 days unless claimed by a user.

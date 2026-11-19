@@ -8,6 +8,7 @@ It is designed for developers learning how to connect ASP.NET Core services to M
 ## Get Started with MongoDB Atlas
 
 This example connects to MongoDB Atlas, the fully managed cloud database. [Register for a free Atlas account](https://www.mongodb.com/cloud/atlas/register?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_term=learning_fuel&utm_content=dotnet.gamesapi.example) to get a free cluster and follow along with this example.
+* Or [create an Atlas Ephemeral Cluster](https://www.mongodb.com/docs/atlas/tutorial/create-ephemeral-cluster/?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_term=learning_fuel&utm_content=dotnet.gamesapi.example), a temporary Atlas Free cluster that you can claim within 7 days to convert into a standard Free cluster.
 
 ## Why MongoDB?
 
